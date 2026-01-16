@@ -1,8 +1,9 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
-import icon from '../../resources/icon.png?asset';
 import { chromeUserAgent } from './utils';
+import icon from '../../resources/icon.png?asset';
+import css from './style.css?inline';
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
@@ -21,6 +22,10 @@ const createWindow = () => {
     mainWindow.on('ready-to-show', () => {
         mainWindow.maximize();
         mainWindow.show();
+    });
+
+    mainWindow.webContents.on('dom-ready', () => {
+        mainWindow.webContents.insertCSS(css);
     });
 
     mainWindow.webContents.setWindowOpenHandler((details) => {
