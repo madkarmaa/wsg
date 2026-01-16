@@ -5,5 +5,17 @@ import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier';
 export default defineConfig(
     { ignores: ['**/node_modules', '**/dist', '**/out'] },
     tseslint.configs.recommended,
-    eslintConfigPrettier
+    eslintConfigPrettier,
+    {
+        rules: {
+            '@typescript-eslint/explicit-function-return-type': 'off',
+            'linebreak-style': 'off',
+            'prettier/prettier': [
+                'error',
+                {
+                    endOfLine: 'auto'
+                }
+            ]
+        }
+    }
 );
