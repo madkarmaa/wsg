@@ -20,6 +20,8 @@ const createWindow = () => {
         }
     });
 
+    mainWindow.setMenu(null);
+
     mainWindow.on('ready-to-show', () => {
         mainWindow.maximize();
         mainWindow.show();
