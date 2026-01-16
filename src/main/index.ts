@@ -1,14 +1,25 @@
 import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { APP_ID, APP_NAME, USER_AGENT, WHATSAPP_WEB_URL } from './utils/constants';
+import {
+    APP_ID,
+    APP_NAME,
+    DEFAULT_HEIGHT,
+    DEFAULT_WIDTH,
+    MIN_HEIGHT,
+    MIN_WIDTH,
+    USER_AGENT,
+    WHATSAPP_WEB_URL
+} from './utils/constants';
 import icon from '../../resources/icon.png?asset';
 import css from './style.css?inline';
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
-        width: 900,
-        height: 670,
+        width: DEFAULT_WIDTH,
+        minWidth: MIN_WIDTH,
+        height: DEFAULT_HEIGHT,
+        minHeight: MIN_HEIGHT,
         center: true,
         show: false,
         autoHideMenuBar: true,
