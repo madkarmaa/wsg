@@ -9,6 +9,7 @@ function createWindow(): void {
     const mainWindow = new BrowserWindow({
         width: 900,
         height: 670,
+        center: true,
         show: false,
         autoHideMenuBar: true,
         ...(process.platform === 'linux' ? { icon } : {}),
@@ -19,6 +20,7 @@ function createWindow(): void {
     });
 
     mainWindow.on('ready-to-show', () => {
+        mainWindow.maximize();
         mainWindow.show();
     });
 
@@ -72,9 +74,7 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    if (process.platform !== 'darwin') app.quit();
 });
 
 // In this file you can include the rest of your app's specific main process
