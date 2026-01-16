@@ -1,8 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, Menu } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { chromeUserAgent } from './utils';
-import { APP_ID, APP_NAME, WHATSAPP_WEB_URL } from './utils/constants';
+import { APP_ID, APP_NAME, USER_AGENT, WHATSAPP_WEB_URL } from './utils/constants';
 import icon from '../../resources/icon.png?asset';
 import css from './style.css?inline';
 
@@ -41,7 +40,7 @@ const createWindow = () => {
 
     // spoof Chrome user agent to avoid being detected as Electron
     // https://stackoverflow.com/a/79406250
-    mainWindow.webContents.setUserAgent(chromeUserAgent('144.0.0.0'));
+    mainWindow.webContents.setUserAgent(USER_AGENT);
 
     if (is.dev) mainWindow.webContents.openDevTools();
 
