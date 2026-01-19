@@ -1,17 +1,21 @@
 import type { Mod } from '../types';
 import { findModule, modMeta } from '../utils';
 
+type Exports = {
+    getUserDesktopOs: () => string | null;
+};
+
 const mod: Mod = async (modules) => {
-    const module = await findModule(
+    const module = await findModule<Exports>(
         modules,
         (module) =>
             module.id === 'WAWebDesktopUpsellUtils' &&
-            typeof module.exports?.['getUserDesktopOs'] === 'function'
+            typeof module.exports.getUserDesktopOs === 'function'
     );
 
     if (!module) throw new Error('Module not found');
 
-    module.exports!['getUserDesktopOs'] = () => null;
+    module.exports.getUserDesktopOs = () => null;
 
     return modMeta({
         name: 'No Desktop App Ad',

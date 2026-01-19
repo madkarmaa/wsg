@@ -1,8 +1,13 @@
-export type WebpackModule<T extends object = object> = {
+export type WebpackModule<Exports extends object = object> = {
     id: string;
-    exports: T | null;
-    defaultExport?: 'default' extends keyof T ? T['default'] : object;
+    exports: Exports | null;
+    defaultExport?: 'default' extends keyof Exports ? Exports['default'] : object;
     [key: string]: unknown;
+};
+export type ReadyWebpackModule<Exports extends object = object> = Required<
+    WebpackModule<Exports>
+> & {
+    exports: Exports;
 };
 
 export type ModulesMap = Record<string, WebpackModule | null>;

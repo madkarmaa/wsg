@@ -1,19 +1,20 @@
-import type { ModId, ModMetadata, ModulesMap, WebpackModule } from '../types';
+import type { ModId, ModMetadata, ModulesMap, ReadyWebpackModule, WebpackModule } from '../types';
 
-export const findModule = async <T extends object = object>(
+export const findModule = async <Exports extends object = object>(
     modules: ModulesMap,
-    query: (module: WebpackModule<T>) => boolean
-): Promise<WebpackModule<T> | null> => {
+    predicate: (module: ReadyWebpackModule<Exports>) => boolean
+): Promise<ReadyWebpackModule<Exports> | null> => {
     const checkModules = () => {
-        let foundMatch: WebpackModule<T> | null = null;
+        let foundMatch: ReadyWebpackModule<Exports> | null = null;
         let allModulesLoaded = true;
 
         for (const id in modules) {
-            const module = modules[id] as WebpackModule<T> | null;
+            const module = modules[id] as WebpackModule<Exports> | null;
             if (!module) continue;
 
             if (!module.exports) allModulesLoaded = false;
-            else if (query(module)) foundMatch = module;
+            else if (module.exports && predicate(module as ReadyWebpackModule<Exports>))
+                foundMatch = module as ReadyWebpackModule<Exports>;
         }
 
         return { foundMatch, allModulesLoaded };
