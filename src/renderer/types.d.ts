@@ -4,6 +4,7 @@ export type WebpackModule<Exports extends object = object> = {
     defaultExport?: 'default' extends keyof Exports ? Exports['default'] : object;
     [key: string]: unknown;
 };
+
 export type ReadyWebpackModule<Exports extends object = object> = Required<
     WebpackModule<Exports>
 > & {
@@ -13,10 +14,14 @@ export type ReadyWebpackModule<Exports extends object = object> = Required<
 export type ModulesMap = Record<string, WebpackModule | null>;
 
 export type ModId = Brand<string, 'mod-id'>;
+
 export type ModMetadata = {
     id: ModId;
     name: string;
     description: string;
     version: `${number}.${number}.${number}`;
 };
-export type Mod = (modules: ModulesMap) => MaybePromise<ModMetadata>;
+
+export type Mod = ModMetadata & {
+    execute: (modules: ModulesMap) => MaybePromise<void>;
+};

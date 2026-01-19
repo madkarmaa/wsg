@@ -28,19 +28,19 @@ const bootstrap = async () => {
         });
     });
 
-    let modulesMap: ModulesMap | null = null;
+    let modulesMap: ModulesMap | undefined;
     try {
-        modulesMap = requireHook('__debug')?.modulesMap as ModulesMap;
+        modulesMap = requireHook('__debug')?.modulesMap as ModulesMap | undefined;
     } catch (error) {
         logger.error('Failed to get internal modules map:', error);
-        return null;
+        return undefined;
     }
 
     logger.info('Internal modules intercepted');
     return modulesMap;
 };
 
-const loadMods = async (modules: ModulesMap | null) => {
+const loadMods = async (modules?: ModulesMap) => {
     if (!modules) return;
 
     const mods = import.meta.glob('./mods/*.ts', { eager: true });
@@ -51,8 +51,8 @@ const loadMods = async (modules: ModulesMap | null) => {
             if (!mod.default) return logger.warn(`Mod ${path} has no default export, skipping`);
 
             try {
-                const metadata = await mod.default(modules);
-                logger.info(`Loaded "${metadata.name}" v${metadata.version}`);
+                await mod.default.execute(modules);
+                logger.info(`Loaded "${mod.default.name}" v${mod.default.version}`);
             } catch (err) {
                 logger.error(`Failed to load mod ${path}:`, err);
             }

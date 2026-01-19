@@ -30,7 +30,7 @@ export const findModule = async <Exports extends object = object>(
     }
 };
 
-export const modMeta = (metadata: OmitFix<ModMetadata, 'id'>): ModMetadata => ({
+export const modMetadata = (metadata: OmitFix<ModMetadata, 'id'>): ModMetadata => ({
     id: metadata.name.trim().toLowerCase().replaceAll(' ', '-') as ModId,
     name: metadata.name.trim(),
     description: metadata.description.trim(),
