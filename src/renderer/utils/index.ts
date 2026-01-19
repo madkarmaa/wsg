@@ -1,16 +1,9 @@
-export type WebpackModule<T extends object = object> = {
-    id: string;
-    exports: T | null;
-    defaultExport?: 'default' extends keyof T ? T['default'] : undefined;
-    [key: string]: unknown;
-};
+import type { ModId, ModMetadata, ModulesMap, WebpackModule } from '../types';
 
-export type ModulesMap = Record<string, WebpackModule | null>;
-
-export async function findModule<T extends object = object>(
+export const findModule = async <T extends object = object>(
     modules: ModulesMap,
     query: (module: WebpackModule<T>) => boolean
-): Promise<WebpackModule<T> | null> {
+): Promise<WebpackModule<T> | null> => {
     const checkModules = () => {
         let foundMatch: WebpackModule<T> | null = null;
         let allModulesLoaded = true;
@@ -34,4 +27,11 @@ export async function findModule<T extends object = object>(
 
         await new Promise((resolve) => setTimeout(resolve, 100));
     }
-}
+};
+
+export const modMeta = (metadata: OmitFix<ModMetadata, 'id'>): ModMetadata => ({
+    id: metadata.name.trim().toLowerCase().replaceAll(' ', '-') as ModId,
+    name: metadata.name.trim(),
+    description: metadata.description.trim(),
+    version: metadata.version
+});

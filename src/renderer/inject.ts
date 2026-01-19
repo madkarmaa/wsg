@@ -1,5 +1,5 @@
 import { taggedLogger } from '../common/logger';
-import { findModule, type ModulesMap } from './utils';
+import type { Mod, ModulesMap } from './types';
 
 const logger = taggedLogger('inject');
 
@@ -42,9 +42,24 @@ async function bootstrap() {
     }
 }
 
-const main = async () => {
-    const modules = await bootstrap();
+const loadMods = async (modules: ModulesMap | null) => {
     if (!modules) return;
+
+    const mods = import.meta.glob('./mods/*.ts', { eager: true });
+
+    await Promise.all(
+        Object.entries(mods).map(async ([path, modImport]) => {
+            const mod = modImport as { default?: Mod };
+            if (!mod.default) return logger.warn(`Mod ${path} has no default export, skipping`);
+
+            try {
+                const metadata = await mod.default(modules);
+                logger.info(`Loaded "${metadata.name}" v${metadata.version}`);
+            } catch (err) {
+                logger.error(`Failed to load mod ${path}:`, err);
+            }
+        })
+    );
 };
 
-main();
+bootstrap().then(loadMods);
