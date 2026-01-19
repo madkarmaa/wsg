@@ -6,15 +6,37 @@ const logger = taggedLogger('inject');
 const bootstrap = async () => {
     logger.info('Waiting for WhatsApp Web internal modules...');
 
-    const getModules = () => window.require?.('__debug')?.modulesMap as ModulesMap;
+    const requireHook = await new Promise<typeof window.require>((resolve) => {
+        if (typeof window.require !== 'undefined') return resolve(window.require);
 
-    let modulesMap = getModules();
-    while (!modulesMap) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        modulesMap = getModules();
+        let windowRequire: typeof window.require | undefined;
+        Object.defineProperty(window, 'require', {
+            configurable: true,
+            get: () => windowRequire,
+            set: (value) => {
+                windowRequire = value;
+
+                Object.defineProperty(window, 'require', {
+                    value: windowRequire,
+                    writable: true,
+                    configurable: true,
+                    enumerable: true
+                });
+
+                resolve(value);
+            }
+        });
+    });
+
+    let modulesMap: ModulesMap | null = null;
+    try {
+        modulesMap = requireHook('__debug')?.modulesMap as ModulesMap;
+    } catch (error) {
+        logger.error('Failed to get internal modules map:', error);
+        return null;
     }
 
-    logger.info('Internal modules intercepted', modulesMap);
+    logger.info('Internal modules intercepted');
     return modulesMap;
 };
 
