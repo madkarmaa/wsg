@@ -1,8 +1,7 @@
 import { taggedLogger } from '../common/logger';
-import type { ModulesMap } from './utils';
+import { findModule, type ModulesMap } from './utils';
 
 const logger = taggedLogger('inject');
-let modulesMap: ModulesMap | null = null;
 
 async function bootstrap() {
     logger.info('Waiting for WhatsApp Web internal modules...');
@@ -29,16 +28,23 @@ async function bootstrap() {
             }
         };
 
-        modulesMap = getModules();
+        let modulesMap = getModules();
         while (!modulesMap) {
             await new Promise((resolve) => setTimeout(resolve, 100));
             modulesMap = getModules();
         }
 
         logger.info('Internal modules intercepted');
+        return modulesMap;
     } catch (err) {
         logger.error('Failed to bootstrap:', err);
+        return null;
     }
 }
 
-bootstrap();
+const main = async () => {
+    const modules = await bootstrap();
+    if (!modules) return;
+};
+
+main();

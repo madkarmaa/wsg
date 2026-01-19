@@ -7,19 +7,31 @@ export type WebpackModule<T extends object = object> = {
 
 export type ModulesMap = Record<string, WebpackModule | null>;
 
-export function findModule<T extends object = object>(
+export async function findModule<T extends object = object>(
     modules: ModulesMap,
-    query: (expectedModuleExports: T) => boolean
-): T | null {
-    for (const id in modules) {
-        const module = modules[id] as WebpackModule<T> | null;
+    query: (module: WebpackModule<T>) => boolean
+): Promise<WebpackModule<T> | null> {
+    const checkModules = () => {
+        let foundMatch: WebpackModule<T> | null = null;
+        let allModulesLoaded = true;
 
-        if (!module || !module.exports) continue;
+        for (const id in modules) {
+            const module = modules[id] as WebpackModule<T> | null;
+            if (!module) continue;
 
-        console.log(module);
+            if (!module.exports) allModulesLoaded = false;
+            else if (query(module)) foundMatch = module;
+        }
 
-        const exp = module.exports;
-        if (query(exp)) return exp;
+        return { foundMatch, allModulesLoaded };
+    };
+
+    while (true) {
+        const { foundMatch, allModulesLoaded } = checkModules();
+
+        if (foundMatch) return foundMatch;
+        if (allModulesLoaded) return null;
+
+        await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    return null;
 }
