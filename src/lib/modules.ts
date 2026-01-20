@@ -1,4 +1,4 @@
-import type { JsModulesMap, ReadyJsModule, JsModule } from '../types';
+import type { JsModulesMap, ReadyJsModule, JsModule } from './types';
 
 type Predicate = (module: ReadyJsModule) => boolean;
 

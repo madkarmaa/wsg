@@ -1,4 +1,4 @@
-import type { ModId, ModMetadata } from '../types';
+import type { ModId, ModMetadata } from './types';
 
 export const modMetadata = (metadata: OmitFix<ModMetadata, 'id'>): ModMetadata => ({
     id: metadata.name.trim().toLowerCase().replaceAll(' ', '-') as ModId,

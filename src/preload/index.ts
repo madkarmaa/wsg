@@ -1,6 +1,6 @@
 import { webFrame, ipcRenderer } from 'electron';
 import css from './style.css?inline';
-import { taggedLogger } from '../common/logger';
+import { taggedLogger } from '@common/logger';
 
 const logger = taggedLogger('preload');
 

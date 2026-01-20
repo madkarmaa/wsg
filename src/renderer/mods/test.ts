@@ -1,6 +1,6 @@
-import { taggedLogger } from '../../common/logger';
-import type { Mod } from '../types';
-import { findModule, modMetadata, byId } from '../utils';
+import { taggedLogger } from '@common/logger';
+import type { Mod } from '@lib';
+import { findModule, modMetadata, byId } from '@lib';
 import type * as ReactType from 'react';
 
 const MODULE_ID = 'React' as const;

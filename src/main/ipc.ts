@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { taggedLogger } from '../common/logger';
+import { taggedLogger } from '@common/logger';
 
 const logger = taggedLogger('main-ipc');
 

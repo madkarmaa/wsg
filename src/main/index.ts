@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
-import { APP_ID } from '../common/constants';
+import { APP_ID } from '@common/constants';
 import { createWindow } from './window';
 import { setupIpcHandlers } from './ipc';
 

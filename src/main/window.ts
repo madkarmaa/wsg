@@ -8,7 +8,7 @@ import {
     MIN_HEIGHT,
     MIN_WIDTH,
     WHATSAPP_WEB_URL
-} from '../common/constants';
+} from '@common/constants';
 import icon from '../../resources/icon.png?asset';
 
 const USER_AGENT =

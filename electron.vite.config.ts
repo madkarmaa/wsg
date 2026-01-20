@@ -1,4 +1,4 @@
-import { defineConfig } from 'electron-vite';
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import { resolve } from 'path';
 import { globSync } from 'glob';
 
@@ -12,9 +12,29 @@ const input = globSync('src/renderer/*.ts').reduce((acc, file) => {
 }, {});
 
 export default defineConfig({
-    main: {},
-    preload: {},
+    main: {
+        resolve: {
+            alias: {
+                '@common': resolve('src/common')
+            }
+        },
+        plugins: [externalizeDepsPlugin()]
+    },
+    preload: {
+        resolve: {
+            alias: {
+                '@common': resolve('src/common')
+            }
+        },
+        plugins: [externalizeDepsPlugin()]
+    },
     renderer: {
+        resolve: {
+            alias: {
+                '@common': resolve('src/common'),
+                '@lib': resolve('src/lib')
+            }
+        },
         build: {
             rollupOptions: {
                 input,
