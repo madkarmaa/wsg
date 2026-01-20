@@ -5,7 +5,9 @@
         "composite": true,
         "baseUrl": ".",
         "paths": {
+            "@common": ["src/common"],
             "@common/*": ["src/common/*"],
+            "@lib": ["src/lib"],
             "@lib/*": ["src/lib/*"]
         }
     }
