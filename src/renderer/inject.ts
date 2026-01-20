@@ -17,7 +17,7 @@ const loadMods = (modules: JsModulesMap) => {
             }
 
             try {
-                await mod.default.execute(modules);
+                await mod.default.handler({ modules });
                 logger.info(`Loaded "${mod.default.name}" v${mod.default.version}`);
             } catch (err) {
                 logger.error(`Failed to load mod ${path}`, err);

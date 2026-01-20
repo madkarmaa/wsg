@@ -1,5 +1,5 @@
 import type { JsModulesMap, ReadyJsModule, JsModule } from '@lib/types';
-import type { JsModuleFinder } from './finders';
+import { type JsModuleFinder } from './finders';
 
 export const findModule = async <Exports extends object = object>(
     modules: JsModulesMap,

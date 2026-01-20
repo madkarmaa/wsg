@@ -12,7 +12,7 @@ const injectScript = () => {
             logger.info('Injecting script into renderer process...');
             webFrame.executeJavaScript(script);
             logger.info('Script injected successfully.');
-        } else logger.error('Failed to retrieve injected script from main process.');
+        } else logger.error('Failed to retrieve injection script from main process.');
     } catch (err) {
         logger.error('Error injecting script:', err);
     }

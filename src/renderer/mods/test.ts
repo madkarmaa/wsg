@@ -1,26 +1,15 @@
-import type * as ReactType from 'react';
-import { taggedLogger } from '@common/logger';
-import { byId } from '@lib/modules/finders';
-import { findModule } from '@lib/modules';
-import { modMetadata, type Mod } from '@lib/mods';
+import { modMetadata, type Mod, withDependencies } from '@lib/mods';
+import { react } from '@lib/mods/dependencies';
 
-const MODULE_ID = 'React' as const;
 const METADATA = modMetadata({
     name: 'Test Mod',
     description: 'This is a test mod for demonstration purposes.',
     version: '1.0.0'
 });
 
-const logger = taggedLogger(METADATA.id);
-
 export default {
     ...METADATA,
-    execute: async (modules) => {
-        const reactModule = await findModule<typeof ReactType>(modules, byId(MODULE_ID));
-        if (!reactModule) return logger.error(`Module ${MODULE_ID} not found`);
-
-        const { exports: React } = reactModule;
-
-        logger.info(React.createElement);
-    }
+    handler: withDependencies(react)(async ({ React }) => {
+        console.warn(React);
+    })
 } satisfies Mod;

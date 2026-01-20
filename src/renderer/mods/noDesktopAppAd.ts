@@ -1,4 +1,3 @@
-import { taggedLogger } from '@common/logger';
 import { byId } from '@lib/modules/finders';
 import { findModule } from '@lib/modules';
 import { modMetadata, type Mod } from '@lib/mods';
@@ -14,13 +13,11 @@ const METADATA = modMetadata({
     version: '1.0.0'
 });
 
-const logger = taggedLogger(METADATA.id);
-
 export default {
     ...METADATA,
-    execute: async (modules) => {
+    handler: async ({ modules }) => {
         const module = await findModule<Exports>(modules, byId(MODULE_ID));
-        if (!module) return logger.error(`Module ${MODULE_ID} not found`);
+        if (!module) throw new Error(`Module ${MODULE_ID} not found`);
 
         module.exports.getUserDesktopOs = () => null;
     }
