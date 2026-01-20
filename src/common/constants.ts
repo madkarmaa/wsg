@@ -8,3 +8,8 @@ export const MIN_WIDTH = 940 as const;
 export const MIN_HEIGHT = 500 as const;
 export const DEFAULT_WIDTH = 1280 as const;
 export const DEFAULT_HEIGHT = 720 as const;
+
+export enum IpcChannels {
+    PING = 'ping',
+    GET_INJECTION_SCRIPT = 'get-injection-script'
+}

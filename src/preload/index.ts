@@ -1,19 +1,20 @@
 import { webFrame, ipcRenderer } from 'electron';
 import css from './style.css?inline';
 import { taggedLogger } from '@common/logger';
+import { IpcChannels } from '@common/constants';
 
 const logger = taggedLogger('preload');
 
 const injectScript = () => {
     try {
-        const script = ipcRenderer.sendSync('get-injected-script');
+        const script = ipcRenderer.sendSync(IpcChannels.GET_INJECTION_SCRIPT.toString());
         if (script && typeof script === 'string') {
             logger.info('Injecting script into renderer process...');
             webFrame.executeJavaScript(script);
             logger.info('Script injected successfully.');
         } else logger.error('Failed to retrieve injected script from main process.');
-    } catch (e) {
-        logger.error('Error injecting script:', e);
+    } catch (err) {
+        logger.error('Error injecting script:', err);
     }
 };
 

@@ -38,6 +38,7 @@ export const createWindow = () => {
         mainWindow.show();
     });
 
+    // make title static
     mainWindow.setTitle(APP_NAME);
     mainWindow.on('page-title-updated', (e) => e.preventDefault());
 
@@ -47,7 +48,6 @@ export const createWindow = () => {
     });
 
     // spoof Chrome user agent to avoid being detected as Electron
-    // https://stackoverflow.com/a/79406250
     mainWindow.webContents.setUserAgent(USER_AGENT);
 
     if (is.dev) mainWindow.webContents.openDevTools();

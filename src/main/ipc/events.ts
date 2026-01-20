@@ -1,14 +1,21 @@
-import { ipcMain } from 'electron';
 import { join } from 'path';
 import { readFileSync } from 'fs';
+import { IpcChannels } from '@common/constants';
 import { taggedLogger } from '@common/logger';
 
-const logger = taggedLogger('main-ipc');
+const logger = taggedLogger('ipc-main');
 
-export const setupIpcHandlers = () => {
-    ipcMain.on('ping', () => logger.log('pong'));
+type IpcMainOn = Parameters<typeof Electron.ipcMain.on>;
+type IpcEvent = { event: IpcChannels | `${IpcChannels}`; listener: IpcMainOn[1] };
 
-    ipcMain.on('get-injected-script', (event) => {
+export const ping = {
+    event: IpcChannels.PING,
+    listener: () => console.log('pong')
+} satisfies IpcEvent;
+
+export const getInjectionScript = {
+    event: IpcChannels.GET_INJECTION_SCRIPT,
+    listener(event) {
         logger.info('Received request for injected script');
         const injectedPath = join(import.meta.dirname, '../renderer/inject.js');
         try {
@@ -18,5 +25,5 @@ export const setupIpcHandlers = () => {
             logger.error('Failed to read injected script from:', injectedPath, err);
             event.returnValue = '';
         }
-    });
-};
+    }
+} satisfies IpcEvent;
