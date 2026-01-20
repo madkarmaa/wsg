@@ -1,8 +1,10 @@
 import type { ModId, ModMetadata, JsModulesMap, ReadyJsModule, JsModule } from '../types';
 
+type Predicate = (module: ReadyJsModule) => boolean;
+
 export const findModule = async <Exports extends object = object>(
     modules: JsModulesMap,
-    ...predicates: ((module: ReadyJsModule<Exports>) => boolean)[]
+    ...predicates: Predicate[]
 ): Promise<ReadyJsModule<Exports> | null> => {
     const checkModules = () => {
         let foundMatch: ReadyJsModule<Exports> | null = null;
@@ -15,7 +17,7 @@ export const findModule = async <Exports extends object = object>(
             if (!module.exports) allModulesLoaded = false;
             else if (
                 module.exports &&
-                predicates.every((predicate) => predicate(module as ReadyJsModule<Exports>))
+                predicates.every((predicate) => predicate(module as ReadyJsModule))
             )
                 foundMatch = module as ReadyJsModule<Exports>;
         }
@@ -34,13 +36,13 @@ export const findModule = async <Exports extends object = object>(
 };
 
 export const byId =
-    (id: string) =>
-    (module: ReadyJsModule): boolean =>
+    (id: string): Predicate =>
+    (module) =>
         module.id === id;
 
 export const byExports =
-    (...exports: string[]) =>
-    (module: ReadyJsModule): boolean =>
+    (...exports: string[]): Predicate =>
+    (module) =>
         exports.every((exportName) => exportName in module.exports);
 
 export const modMetadata = (metadata: OmitFix<ModMetadata, 'id'>): ModMetadata => ({
