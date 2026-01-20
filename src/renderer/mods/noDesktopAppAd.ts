@@ -1,6 +1,6 @@
 import { taggedLogger } from '../../common/logger';
 import type { Mod } from '../types';
-import { findModule, modMetadata } from '../utils';
+import { byId, findModule, modMetadata } from '../utils';
 
 const MODULE_ID = 'WAWebDesktopUpsellUtils' as const;
 type Exports = {
@@ -18,7 +18,7 @@ const logger = taggedLogger(METADATA.id);
 const mod = {
     ...METADATA,
     execute: async (modules) => {
-        const module = await findModule<Exports>(modules, (module) => module.id === MODULE_ID);
+        const module = await findModule<Exports>(modules, byId(MODULE_ID));
         if (!module) return logger.error(`Module ${MODULE_ID} not found`);
 
         module.exports.getUserDesktopOs = () => null;
