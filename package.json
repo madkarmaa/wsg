@@ -37,7 +37,11 @@
         "eslint": "^9.39.2",
         "glob": "^13.0.0",
         "prettier": "^3.8.0",
+        "simple-git-hooks": "^2.13.1",
         "typescript": "^5.9.3",
         "vite": "^7.3.1"
+    },
+    "simple-git-hooks": {
+        "pre-commit": "bun run format && bun run lint"
     }
 }
