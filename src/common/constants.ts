@@ -4,6 +4,7 @@ export const APP_ID = 'com.wsg.desktop' as const;
 export const WA_WEB_URL = 'https://web.whatsapp.com' as const;
 export const WA_DEBUG_MODULE = '__debug' as const;
 export const WA_DEFINE_METHOD = '__d' as const;
+export const WA_AMD_DEFINE_METHOD = 'define' as const;
 export const WA_MOUNT_ELEMENT_SELECTOR = 'body > div[id^="mount"]' as const;
 export const WA_APP_ELEMENT_SELECTOR = `${WA_MOUNT_ELEMENT_SELECTOR} > * > div[id^="app"]` as const;
 

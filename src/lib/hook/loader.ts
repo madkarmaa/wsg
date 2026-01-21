@@ -1,4 +1,5 @@
 import { taggedLogger } from '@common/logger';
+import { WA_AMD_DEFINE_METHOD, WA_DEFINE_METHOD } from '@common/constants';
 import type { JsModule, JsModuleFactory } from '@lib/types';
 import { patches } from './state';
 import { applyPatches } from './patcher';
@@ -30,9 +31,8 @@ const wrapFactory = (moduleId: string, factory: JsModuleFactory): JsModuleFactor
 export const hookModuleLoader = () => {
     logger.info('Initializing module loader hook...');
 
-    const hookFunc =
-        (original: Window['__d']): Window['__d'] =>
-        (...args) => {
+    const createHook = (original: (...args: unknown[]) => void) => {
+        const hooked = function (this: unknown, ...args: unknown[]) {
             const moduleId = args.find((arg): arg is string => typeof arg === 'string');
             const factoryIndex = args.findIndex((arg) => typeof arg === 'function');
 
@@ -42,26 +42,35 @@ export const hookModuleLoader = () => {
                     factory = wrapFactory(moduleId, factory);
                     const newArgs = [...args];
                     newArgs[factoryIndex] = factory;
-                    return original.apply(window, newArgs);
+                    return original.apply(this, newArgs);
                 }
             }
 
-            return original.apply(window, args);
+            return original.apply(this, args);
         };
 
-    if (window.__d) {
-        window.__d = hookFunc(window.__d);
-        logger.info('Hooked existing window.__d');
-    } else {
-        let _d: Window['__d'];
-        Object.defineProperty(window, '__d', {
-            configurable: true,
-            enumerable: true,
-            get: () => _d,
-            set: (value) => {
-                _d = hookFunc(value);
-                logger.info('Hooked new window.__d assignment');
-            }
-        });
-    }
+        Object.assign(hooked, original);
+        return hooked;
+    };
+
+    const attach = (methodName: string) => {
+        if (window[methodName]) {
+            window[methodName] = createHook(window[methodName]);
+            logger.info(`Hooked existing window.${methodName}`);
+        } else {
+            let _val: unknown;
+            Object.defineProperty(window, methodName, {
+                configurable: true,
+                enumerable: true,
+                get: () => _val,
+                set: (value) => {
+                    _val = createHook(value);
+                    logger.info(`Hooked new window.${methodName} assignment`);
+                }
+            });
+        }
+    };
+
+    attach(WA_DEFINE_METHOD);
+    attach(WA_AMD_DEFINE_METHOD);
 };
