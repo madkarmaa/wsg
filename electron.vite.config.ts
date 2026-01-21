@@ -36,6 +36,11 @@ export default defineConfig({
                 '@lib': resolve('src/lib')
             }
         },
+        esbuild: {
+            jsx: 'transform',
+            jsxFactory: 'React.createElement',
+            jsxFragment: 'React.Fragment'
+        },
         build: {
             rollupOptions: {
                 input,

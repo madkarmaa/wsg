@@ -10,16 +10,10 @@ const METADATA = modMetadata({
 
 const logger = taggedLogger(METADATA.id);
 
+//                        vvvvv FIXME: Must have React module in scope for it to work
 const TestComponent = (({ React }) => {
-    const ref = React.useRef<HTMLDivElement>(null);
-
-    React.useEffect(() => {
-        if (ref.current) logger.warn(ref.current);
-    }, []);
-
     return (
         <div
-            ref={ref}
             style={{
                 position: 'fixed',
                 top: '20px',

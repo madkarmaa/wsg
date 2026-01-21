@@ -15,8 +15,8 @@
             "@common/*": ["src/common/*"],
             "@lib": ["src/lib"],
             "@lib/*": ["src/lib/*"]
-        }
-    },
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
+        },
+        "jsx": "react-jsx",
+        "jsxImportSource": "react"
+    }
 }
