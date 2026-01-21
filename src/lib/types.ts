@@ -1,4 +1,4 @@
-import { type WHATSAPP_DEFINE_METHOD } from '@common/constants';
+import { type WA_DEFINE_METHOD } from '@common/constants';
 
 export type JsModuleFactory = (...args: unknown[]) => unknown;
 
@@ -18,6 +18,6 @@ export type JsModulesMap = Record<string, JsModule | null>;
 
 declare global {
     interface Window {
-        [WHATSAPP_DEFINE_METHOD]: (...args: unknown[]) => void;
+        [WA_DEFINE_METHOD]: (...args: unknown[]) => void;
     }
 }

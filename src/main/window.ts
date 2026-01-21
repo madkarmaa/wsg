@@ -7,7 +7,7 @@ import {
     DEFAULT_WIDTH,
     MIN_HEIGHT,
     MIN_WIDTH,
-    WHATSAPP_WEB_URL
+    WA_WEB_URL
 } from '@common/constants';
 import icon from '@resources/icon.png?asset';
 
@@ -52,7 +52,7 @@ export const createWindow = () => {
 
     if (is.dev) mainWindow.webContents.openDevTools();
 
-    mainWindow.loadURL(WHATSAPP_WEB_URL);
+    mainWindow.loadURL(WA_WEB_URL);
 
     return mainWindow;
 };

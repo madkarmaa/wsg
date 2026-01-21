@@ -5,7 +5,7 @@ import { hookModuleLoader } from '@lib/hook';
 const logger = taggedLogger('inject');
 
 const loadMods = () => {
-    const mods = import.meta.glob('./mods/*.ts', { eager: true });
+    const mods = import.meta.glob('./mods/*.{ts,tsx}', { eager: true });
 
     Promise.all(
         Object.entries(mods).map(async ([path, modImport]) => {

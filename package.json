@@ -1,5 +1,5 @@
 {
-    "name": "wassapp",
+    "name": "wsg",
     "version": "1.0.0",
     "description": "A minimal Electron application with TypeScript",
     "main": "./out/main/index.js",
@@ -28,12 +28,15 @@
         "@electron-toolkit/tsconfig": "^2.0.0",
         "@types/node": "^25.0.9",
         "@types/react": "^19.2.9",
+        "@types/react-dom": "^19.2.3",
         "electron": "^40.0.0",
         "electron-builder": "^26.4.0",
         "electron-vite": "^5.0.0",
         "eslint": "^9.39.2",
         "glob": "^13.0.0",
         "prettier": "^3.8.0",
+        "react": "^19.2.3",
+        "react-dom": "^19.2.3",
         "simple-git-hooks": "^2.13.1",
         "typescript": "^5.9.3",
         "vite": "^7.3.1"

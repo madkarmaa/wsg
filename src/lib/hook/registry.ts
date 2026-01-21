@@ -1,5 +1,5 @@
 import { taggedLogger } from '@common/logger';
-import { WHATSAPP_DEBUG_MODULE } from '@common/constants';
+import { WA_DEBUG_MODULE } from '@common/constants';
 import type { JsModulesMap } from '@lib/types';
 import { patches } from './state';
 import type { PatchCallback } from './types';
@@ -14,7 +14,7 @@ export const registerPatch = (moduleId: string, callback: PatchCallback) => {
     // Attempt late patching via debug module if available
     if (window.require) {
         try {
-            const debug = window.require(WHATSAPP_DEBUG_MODULE) as
+            const debug = window.require(WA_DEBUG_MODULE) as
                 | { modulesMap: JsModulesMap }
                 | undefined;
             if (debug && latePatch(debug.modulesMap, moduleId, callback)) return;

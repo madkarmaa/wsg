@@ -1,6 +1,12 @@
 {
     "extends": ["./tsconfig.base.json", "@electron-toolkit/tsconfig/tsconfig.web.json"],
-    "include": ["src/renderer/**/*.ts", "src/preload/**/*", "src/common/**/*", "src/lib/**/*"],
+    "include": [
+        "src/renderer/**/*.ts",
+        "src/renderer/**/*.tsx",
+        "src/preload/**/*",
+        "src/common/**/*",
+        "src/lib/**/*"
+    ],
     "compilerOptions": {
         "composite": true,
         "baseUrl": ".",
@@ -10,5 +16,7 @@
             "@lib": ["src/lib"],
             "@lib/*": ["src/lib/*"]
         }
-    }
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
 }
