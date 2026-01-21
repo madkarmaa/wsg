@@ -50,7 +50,12 @@ export const createWindow = () => {
     // spoof Chrome user agent to avoid being detected as Electron
     mainWindow.webContents.setUserAgent(USER_AGENT);
 
-    if (is.dev) mainWindow.webContents.openDevTools();
+    if (is.dev)
+        mainWindow.webContents.openDevTools({
+            mode: 'detach',
+            title: `${APP_NAME} DevTools`,
+            activate: true
+        });
 
     mainWindow.loadURL(WA_WEB_URL);
 
