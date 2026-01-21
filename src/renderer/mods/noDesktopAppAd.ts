@@ -1,5 +1,4 @@
-import { byId } from '@lib/modules/finders';
-import { findModule } from '@lib/modules';
+import { patchModule } from '@lib/modules';
 import { modMetadata, type Mod } from '@lib/mods';
 
 const MODULE_ID = 'WAWebDesktopUpsellUtils' as const;
@@ -15,10 +14,8 @@ const METADATA = modMetadata({
 
 export default {
     ...METADATA,
-    handler: async ({ modules }) => {
-        const module = await findModule<Exports>(modules, byId(MODULE_ID));
-        if (!module) throw new Error(`Module ${MODULE_ID} not found`);
-
-        module.exports.getUserDesktopOs = () => null;
-    }
+    handler: () =>
+        patchModule<Exports>(MODULE_ID, (exports) => {
+            exports.getUserDesktopOs = () => null;
+        })
 } satisfies Mod;

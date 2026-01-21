@@ -1,10 +1,6 @@
-import type { JsModulesMap } from '@lib/types';
+export type ModHandler = () => MaybePromise<void>;
 
-export type ModHandler<T extends object = object> = (
-    params: { modules: JsModulesMap } & T
-) => MaybePromise<void>;
-
-export type ModDependency<T extends object = object> = (modules: JsModulesMap) => MaybePromise<T>;
+export type ModDependency<T extends object = object> = () => MaybePromise<T>;
 
 type TupleToIntersection<T extends readonly unknown[]> = T extends readonly [
     infer Head,
@@ -16,16 +12,16 @@ type TupleToIntersection<T extends readonly unknown[]> = T extends readonly [
 export const withDependencies =
     <const Deps extends readonly ModDependency[]>(...dependencies: Deps) =>
     (
-        handler: ModHandler<
-            TupleToIntersection<{
+        handler: (
+            deps: TupleToIntersection<{
                 [K in keyof Deps]: Deps[K] extends ModDependency<infer R> ? Awaited<R> : never;
             }>
-        >
+        ) => MaybePromise<void>
     ): ModHandler =>
-    async ({ modules }) => {
-        const results = await Promise.all(dependencies.map((dep) => dep(modules)));
+    async () => {
+        const results = await Promise.all(dependencies.map((dep) => dep()));
         const deps = Object.assign({}, ...results);
-        await handler({ modules, ...deps });
+        await handler(deps);
     };
 
 type ModId = Brand<string, 'mod-id'>;

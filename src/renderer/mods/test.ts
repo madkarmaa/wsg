@@ -9,7 +9,7 @@ const METADATA = modMetadata({
 
 export default {
     ...METADATA,
-    handler: withDependencies(react)(async ({ React }) => {
+    handler: withDependencies(react)(({ React }) => {
         console.warn(React);
     })
 } satisfies Mod;

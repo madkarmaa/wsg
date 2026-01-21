@@ -1,23 +1,19 @@
 import { taggedLogger } from '@common/logger';
-import type { JsModulesMap } from '@lib/types';
 import type { Mod } from '@lib/mods';
 import { hookModuleLoader } from '@lib/hook';
 
 const logger = taggedLogger('inject');
 
-const loadMods = (modules: JsModulesMap) => {
+const loadMods = () => {
     const mods = import.meta.glob('./mods/*.ts', { eager: true });
 
     Promise.all(
         Object.entries(mods).map(async ([path, modImport]) => {
             const mod = modImport as { default?: Mod };
-            if (!mod.default) {
-                logger.warn(`Mod ${path} has no default export, skipping`);
-                return;
-            }
+            if (!mod.default) return logger.warn(`Mod ${path} has no default export, skipping`);
 
             try {
-                await mod.default.handler({ modules });
+                await mod.default.handler();
                 logger.info(`Loaded "${mod.default.name}" v${mod.default.version}`);
             } catch (err) {
                 logger.error(`Failed to load mod ${path}`, err);
@@ -26,4 +22,5 @@ const loadMods = (modules: JsModulesMap) => {
     );
 };
 
-hookModuleLoader(loadMods);
+loadMods();
+hookModuleLoader();
