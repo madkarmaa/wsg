@@ -2,7 +2,7 @@ import { taggedLogger } from '@common/logger';
 import type { Mod } from '@lib/mods';
 import { hookModuleLoader } from '@lib/hook';
 import { APP_NAME } from '@common/constants';
-import { enableReact } from '@lib/hook/react';
+import '@lib/hook/react';
 
 const logger = taggedLogger('inject');
 
@@ -26,6 +26,5 @@ const loadMods = () => {
     );
 };
 
-enableReact();
 loadMods();
 hookModuleLoader();
