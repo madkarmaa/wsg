@@ -6,7 +6,7 @@ const ogWarn = console.warn;
 const ogError = console.error;
 
 export const taggedLogger = (tag: string) => {
-    const prefix = `[${APP_NAME}/${tag.trim().toLowerCase()}]`;
+    const prefix = `[${APP_NAME}/${tag.trim().toLowerCase()}]` as const;
 
     return {
         log: (...args: unknown[]) => ogLog(prefix, ...args),
