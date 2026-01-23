@@ -20,7 +20,7 @@ export type JsModulesMap = Record<string, JsModule | null>;
 declare global {
     interface Window {
         [WA_D_METHOD]: (...args: unknown[]) => void;
-        [WA_DEFINE_METHOD]: ((...args: unknown[]) => void) & { amd?: object };
+        [WA_DEFINE_METHOD]: ((...args: unknown[]) => void) & { amd: object };
         [APP_NAME]: {
             ReactCreateElement: ReactRef['createElement'];
             ReactFragment: ReactRef['Fragment'];
