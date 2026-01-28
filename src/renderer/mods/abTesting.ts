@@ -1,5 +1,5 @@
 import { modMetadata, withDependencies, type Mod } from '@lib/mods';
-import { abFlags } from '@lib/mods/dependencies/ab';
+import { ABFlags } from '@lib/mods/dependencies/ab';
 
 const METADATA = modMetadata({
     name: 'AB Testing Overwrites',
@@ -9,7 +9,7 @@ const METADATA = modMetadata({
 
 export default {
     ...METADATA,
-    handler: withDependencies(abFlags)(({ overwriteABFlag }) => {
+    handler: withDependencies(ABFlags)(({ overwriteABFlag }) => {
         overwriteABFlag('use_per_chat_wallpaper', true);
     })
 } satisfies Mod;
