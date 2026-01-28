@@ -1,15 +1,15 @@
 export type JsModuleFactory = (...args: unknown[]) => unknown;
 
-export type JsModule<Exports extends object = object> = {
-    id: string;
-    exports: Exports | null;
-    defaultExport?: 'default' extends keyof Exports ? Exports['default'] : object;
-    factory?: JsModuleFactory;
-    [key: string]: unknown;
+type JsModuleBase = { id: string; [key: string]: unknown };
+
+export type JsModule = JsModuleBase & {
+    exports: null;
+    factory: JsModuleFactory;
 };
 
-export type ReadyJsModule<Exports extends object = object> = Required<JsModule<Exports>> & {
+export type ReadyJsModule<Exports extends object = object> = JsModuleBase & {
     exports: Exports;
+    factory: null;
 };
 
 export type JsModulesMap = Record<string, JsModule | null>;

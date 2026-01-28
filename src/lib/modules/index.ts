@@ -3,7 +3,7 @@ import { modules } from '@lib/hook/state';
 
 export const patchModule = <Exports extends object = object>(
     id: string,
-    callback: (exports: Exports) => void
+    callback: PatchCallback<Exports>
 ) => registerPatch(id, callback as PatchCallback);
 
 export const waitForModule = <Exports extends object = object>(id: string) =>
