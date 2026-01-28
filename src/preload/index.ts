@@ -28,7 +28,10 @@ const injectCSS = () => {
     }
 };
 
-contextBridge.exposeInMainWorld(APP_DEV_MODE_KEY, ipcRenderer.sendSync(IpcChannels.IS_DEV.toString()));
+contextBridge.exposeInMainWorld(
+    APP_DEV_MODE_KEY,
+    ipcRenderer.sendSync(IpcChannels.IS_DEV.toString())
+);
 
 injectScript();
 injectCSS();

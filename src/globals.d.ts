@@ -1,6 +1,6 @@
 import { type ReactRef } from '@lib/hook/react';
 import {
-    type DEV_MODE_KEY,
+    type APP_DEV_MODE_KEY,
     type APP_NAME,
     type WA_DEFINE_METHOD,
     type WA_D_METHOD
@@ -20,7 +20,7 @@ declare global {
             ReactCreateElement: ReactRef['createElement'];
             ReactFragment: ReactRef['Fragment'];
         };
-        [DEV_MODE_KEY]: boolean;
+        [APP_DEV_MODE_KEY]: boolean;
     }
 }
 
