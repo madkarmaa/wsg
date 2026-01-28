@@ -1,20 +1,18 @@
 import { patchModule } from '@lib/modules';
 import { modMetadata, type Mod } from '@lib/mods';
 
-type Exports = {
-    getUserDesktopOs: () => string | null;
-};
-
 const METADATA = modMetadata({
-    name: 'No Desktop App Ad',
-    description: 'Removes the desktop app advertisement banner.',
+    name: 'Remove Clutter',
+    description: 'Removes clutter from the app.',
     version: '1.0.0'
 });
 
 export default {
     ...METADATA,
     handler: () =>
-        patchModule<Exports>('WAWebDesktopUpsellUtils', (exports) => {
+        patchModule<{
+            getUserDesktopOs: () => string | null;
+        }>('WAWebDesktopUpsellUtils', (exports) => {
             exports.getUserDesktopOs = () => null;
         })
 } satisfies Mod;
