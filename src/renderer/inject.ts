@@ -7,6 +7,7 @@ import '@lib/hook/require';
 import '@lib/hook/react';
 
 const logger = taggedLogger('inject');
+const isDevelopment = import.meta.env.MODE === 'development';
 
 if (!window[APP_NAME]) window[APP_NAME] = {} as Window[typeof APP_NAME];
 
@@ -38,6 +39,6 @@ const loadMods = () => {
     );
 };
 
-setLogLevel(window.__WSG_dev_mode ? LogLevel.VERBOSE : LogLevel.WARN);
+setLogLevel(isDevelopment ? LogLevel.VERBOSE : LogLevel.WARN);
 hookModuleLoader();
 loadMods();

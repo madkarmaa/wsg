@@ -1,11 +1,11 @@
+/// <reference types="@samrum/vite-plugin-web-extension/client" />
+
 import {
-    type APP_DEV_MODE_KEY,
     type APP_NAME,
     type WA_D_METHOD,
     type WA_DEFINE_METHOD,
     type WA_REQUIRELAZY_METHOD
 } from '@common/constants';
-import { type ElectronAPI } from '@electron-toolkit/preload';
 
 declare global {
     const __brand: unique symbol;
@@ -23,9 +23,6 @@ declare global {
             ReactCreateElement: import('./lib/hook/react').ReactRef['createElement'];
             ReactFragment: import('./lib/hook/react').ReactRef['Fragment'];
         };
-        [APP_DEV_MODE_KEY]: boolean;
-
-        electron: ElectronAPI;
     }
 }
 

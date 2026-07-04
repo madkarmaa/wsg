@@ -5,6 +5,7 @@ import { patches } from './state';
 import { applyPatches } from './patcher';
 
 const logger = taggedLogger('hook', 'loader');
+type LoaderMethodName = typeof WA_D_METHOD | typeof WA_DEFINE_METHOD;
 
 const wrapFactory = (moduleId: string, factory: JsModuleFactory): JsModuleFactory => {
     const wrapped = function (this: unknown, ...args: unknown[]) {
@@ -32,7 +33,7 @@ const wrapFactory = (moduleId: string, factory: JsModuleFactory): JsModuleFactor
 };
 
 export const hookModuleLoader = (...debugModules: string[]) => {
-    const createHook = (original: (...args: unknown[]) => void, methodName: string) => {
+    const createHook = (original: (...args: unknown[]) => void, methodName: LoaderMethodName) => {
         const hooked = function (this: unknown, ...args: unknown[]) {
             const moduleId = args.find((arg): arg is string => typeof arg === 'string');
             const factoryIndex = args.findIndex((arg) => typeof arg === 'function');
@@ -57,7 +58,7 @@ export const hookModuleLoader = (...debugModules: string[]) => {
         return hooked;
     };
 
-    const attach = (methodName: string) => {
+    const attach = (methodName: LoaderMethodName) => {
         if (window[methodName]) {
             window[methodName] = createHook(window[methodName], methodName);
             logger.info(`Hooked existing window.${methodName}`);

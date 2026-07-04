@@ -3,5 +3,5 @@ dist
 out
 dump
 .DS_Store
-.eslintcache
+*.tsbuildinfo
 *.log*

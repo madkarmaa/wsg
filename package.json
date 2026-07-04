@@ -1,47 +1,22 @@
 {
     "name": "wsg",
     "version": "1.0.0",
-    "description": "A minimal Electron application with TypeScript",
-    "main": "./out/main/index.js",
-    "author": "example.com",
-    "homepage": "https://electron-vite.org",
+    "description": "A WhatsApp Web browser extension written in TypeScript",
+    "private": true,
+    "type": "module",
     "scripts": {
         "format": "prettier --write .",
-        "lint": "eslint --cache .",
-        "start": "electron-vite preview",
-        "dev": "electron-vite dev",
-        "build": "electron-vite build",
-        "postinstall": "electron-builder install-app-deps && simple-git-hooks",
-        "build:unpack": "bun run build && electron-builder --dir",
-        "build:win": "bun run build && electron-builder --win",
-        "build:mac": "bun run build && electron-builder --mac",
-        "build:linux": "bun run build && electron-builder --linux"
-    },
-    "dependencies": {
-        "@electron-toolkit/preload": "^3.0.2",
-        "@electron-toolkit/utils": "^4.0.0",
-        "electron-updater": "^6.7.3"
+        "typecheck": "tsc --noEmit --pretty",
+        "dev": "vite build --mode development --watch",
+        "build": "bun run typecheck && vite build"
     },
     "devDependencies": {
-        "@electron-toolkit/eslint-config-prettier": "^3.0.0",
-        "@electron-toolkit/eslint-config-ts": "^3.1.0",
-        "@electron-toolkit/tsconfig": "^2.0.0",
-        "@types/node": "^25.1.0",
-        "@types/react": "^19.2.10",
-        "@types/react-dom": "^19.2.3",
-        "electron": "^40.1.0",
-        "electron-builder": "^26.4.0",
-        "electron-vite": "^5.0.0",
-        "eslint": "^9.39.2",
-        "glob": "^13.0.0",
-        "prettier": "^3.8.1",
-        "react": "^19.2.4",
-        "react-dom": "^19.2.4",
-        "simple-git-hooks": "^2.13.1",
+        "@samrum/vite-plugin-web-extension": "^5.1.1",
+        "@types/chrome": "^0.2.2",
+        "@types/node": "^25.9.4",
+        "@types/react": "^19.2.17",
+        "prettier": "^3.9.4",
         "typescript": "^5.9.3",
-        "vite": "^7.3.1"
-    },
-    "simple-git-hooks": {
-        "pre-commit": "bun run format && bun run lint && git add -u"
+        "vite": "^5.4.21"
     }
 }
