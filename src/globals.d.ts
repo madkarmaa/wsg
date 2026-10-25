@@ -1,27 +1,33 @@
-/// <reference types="@samrum/vite-plugin-web-extension/client" />
-
-import {
-    type APP_NAME,
-    type WA_D_METHOD,
-    type WA_DEFINE_METHOD,
-    type WA_REQUIRELAZY_METHOD
-} from '@common/constants';
+// IS_DEV is declared in the generated extension-env.d.ts, from `define` in extension.config.mjs
 
 declare global {
-    const __brand: unique symbol;
-    type Brand<T, B extends string> = T & { [__brand]: B };
-
-    type MaybePromise<T> = T | Promise<T>;
-    type OmitFix<T, K extends keyof T> = { [P in Exclude<keyof T, K>]: T[P] };
-
     interface Window {
-        [WA_D_METHOD]: (...args: unknown[]) => void;
-        [WA_DEFINE_METHOD]: (...args: unknown[]) => void;
-        [WA_REQUIRELAZY_METHOD]: import('./lib/hook/require').RequireLazy;
+        /** Set by WSG at document_start */
+        WSG?: typeof import('./WSG');
 
-        [APP_NAME]: {
-            ReactCreateElement: import('./lib/hook/react').ReactRef['createElement'];
-            ReactFragment: import('./lib/hook/react').ReactRef['Fragment'];
+        // WhatsApp's module system
+        __d?: (...args: unknown[]) => unknown;
+        define?: (...args: unknown[]) => unknown;
+        require?: (id: string) => unknown;
+        requireLazy?: (ids: string[], callback: (...modules: unknown[]) => void) => void;
+    }
+
+    interface ImportMeta {
+        /** Rspack's build-time module context, see https://rspack.rs/api/runtime-api/module-variables#importmetawebpackcontext */
+        webpackContext(
+            request: string,
+            options?: {
+                recursive?: boolean;
+                regExp?: RegExp;
+                include?: RegExp;
+                exclude?: RegExp;
+                mode?: 'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once';
+            }
+        ): {
+            (id: string): unknown;
+            keys(): string[];
+            resolve(id: string): string;
+            id: string;
         };
     }
 }
