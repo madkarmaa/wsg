@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "WSG",
+    "version": "1.0.0",
+    "description": "A WhatsApp Web client mod with a plugin system",
+    "minimum_chrome_version": "111",
+    "icons": {
+        "16": "/icons/icon-16.png",
+        "48": "/icons/icon-48.png",
+        "128": "/icons/icon-128.png",
+        "512": "/icons/icon-512.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://web.whatsapp.com/*"],
+            "js": ["./index.ts"],
+            "run_at": "document_start",
+            "world": "MAIN"
+        }
+    ]
+}

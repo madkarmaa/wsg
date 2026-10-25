@@ -1,8 +1,7 @@
 {
     "compilerOptions": {
         "target": "ES2022",
-        "useDefineForClassFields": true,
-        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "lib": ["ES2023", "DOM", "DOM.Iterable"],
         "module": "ESNext",
         "moduleResolution": "Bundler",
         "resolveJsonModule": true,
@@ -12,17 +11,20 @@
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["vite/client", "node", "chrome"],
+        "forceConsistentCasingInFileNames": true,
+        "types": ["chrome"],
         "paths": {
-            "@common": ["./src/common"],
-            "@common/*": ["./src/common/*"],
-            "@lib": ["./src/lib"],
-            "@lib/*": ["./src/lib/*"],
-            "@resources": ["./resources"],
-            "@resources/*": ["./resources/*"]
+            "@api/*": ["./src/api/*"],
+            "@components/*": ["./src/components/*"],
+            "@modules": ["./src/modules"],
+            "@modules/*": ["./src/modules/*"],
+            "@plugins": ["./src/plugins"],
+            "@plugins/*": ["./src/plugins/*"],
+            "@shared/*": ["./src/shared/*"],
+            "@utils/*": ["./src/utils/*"]
         },
         "jsx": "react-jsx",
         "jsxImportSource": "react"
     },
-    "include": ["vite.config.ts", "src/**/*.ts", "src/**/*.tsx", "src/globals.d.ts"]
+    "include": ["src", "extension-env.d.ts"]
 }
